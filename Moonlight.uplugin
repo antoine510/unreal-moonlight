@@ -1,0 +1,26 @@
+{
+	"FileVersion": 1,
+	"Version": 1,
+	"VersionName": "0.12-1",
+    "EngineVersion" : "4.21.0",
+	"FriendlyName": "Moonlight",
+	"Description": "Moonlight streaming receiver implementation for Unreal Engine",
+	"Category": "Moonlight",
+	"CreatedBy": "",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EnabledByDefault" : true,
+	"CanContainContent" : true,
+	"IsBetaVersion" : true,
+	"Installed" : false,
+	"RequiresBuildPlatform" : false,
+	"Modules": [
+		{
+			"Name": "Moonlight",
+			"Type": "Runtime",
+			"LoadingPhase" : "Default"
+		}
+	]
+}
