@@ -38,7 +38,7 @@ public:
 	}
 
 
-	StreamSource(StreamSource&& old) : _src(old._src), _imageY(old._imageY), _imageUV(old._imageUV), _conf(old._conf)
+	StreamSource(StreamSource&& old) : _src(old._src), _conf(old._conf), _imageY(old._imageY), _imageUV(old._imageUV)
 	{
 		old._src = nullptr;
 		old._imageY = nullptr;
@@ -64,6 +64,8 @@ public:
 		if(_src != nullptr) mvd_DiscardStreamSource(_src);
 	}
 
+	int getWidth() const { return _conf.width; }
+	int getHeight() const { return _conf.height; }
 	UTexture2D* getImageY() const { return _imageY; }
 	UTexture2D* getImageUV() const { return _imageUV; }
 

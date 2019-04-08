@@ -36,21 +36,16 @@ FString Moonlight::AddressStripPort(const FString& address) {
 
 void StreamSource::_UpdateImageCB(const uint8_t* imageDataNV12, void* context) {
 	StreamSource* src = (StreamSource*)context;
-	ENQUEUE_UNIQUE_RENDER_COMMAND_THREEPARAMETER(
-		UpdateDynamicTextureCode,
-		UTexture2D**, pTextures, &src->_imageY,
-		const uint8*, pData, imageDataNV12,
-		PSTREAM_CONFIGURATION, pConf, &src->_conf,
-		{
-			FUpdateTextureRegion2D region(0, 0, 0, 0, pConf->width, pConf->height);
+	ENQUEUE_RENDER_COMMAND(UpdateDynamicTextureCode)([src, imageDataNV12](FRHICommandListImmediate& RHICmdList) {
+		FUpdateTextureRegion2D region(0, 0, 0, 0, src->getWidth(), src->getHeight());
 
-			auto resource = (FTexture2DResource*)pTextures[0]->Resource;	// Y plane update
-			RHIUpdateTexture2D(resource->GetTexture2DRHI(), 0, region, pConf->width, pData);
+		auto resource = (FTexture2DResource*)src->getImageY()->Resource;	// Y plane update
+		RHICmdList.UpdateTexture2D(resource->GetTexture2DRHI(), 0, region, src->getWidth(), imageDataNV12);
 
-			region.Width >>= 1;
-			region.Height >>= 1;
-			pData += pConf->width * pConf->height;	// We got 1 byte per pixel already
-			resource = (FTexture2DResource*)pTextures[1]->Resource;	// UV plane update
-			RHIUpdateTexture2D(resource->GetTexture2DRHI(), 0, region, pConf->width, pData);
-		});
+		region.Width >>= 1;
+		region.Height >>= 1;
+		const uint8* imageDataUV = imageDataNV12 + src->getWidth() * src->getHeight();	// We got 1 byte per pixel already
+		resource = (FTexture2DResource*)src->getImageUV()->Resource;	// UV plane update
+		RHICmdList.UpdateTexture2D(resource->GetTexture2DRHI(), 0, region, src->getWidth(), imageDataUV);
+	});
 }
