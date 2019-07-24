@@ -2,7 +2,7 @@
 	"FileVersion": 1,
 	"Version": 1,
 	"VersionName": "0.12-1",
-    "EngineVersion" : "4.21.0",
+    "EngineVersion" : "4.22.0",
 	"FriendlyName": "Moonlight",
 	"Description": "Moonlight streaming receiver implementation for Unreal Engine",
 	"Category": "Moonlight",

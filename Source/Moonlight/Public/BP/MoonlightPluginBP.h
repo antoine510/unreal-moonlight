@@ -107,6 +107,7 @@ UCLASS(BlueprintType)
 class MOONLIGHT_API UMoonlightSource : public UObject, public FTickableGameObject {
 	GENERATED_UCLASS_BODY()
 public:
+
 	DECLARE_DYNAMIC_DELEGATE_OneParam(FLoadStreamSourceDelegate, bool, success);
 	DECLARE_DYNAMIC_DELEGATE_OneParam(FPairDelegate, bool, success);
 	DECLARE_DYNAMIC_DELEGATE(FLaunchAppDelegate);
@@ -150,8 +151,8 @@ public:
 							[this](int out) { Paired.ExecuteIfBound(out == 0); });
 	}
 
-	UFUNCTION(BlueprintPure, Meta = (ExpandEnumAsExecs = "Branches"))
-		void GetAppList(TArray<UMoonlightApp*>& apps, EMoonlightErrorState& Branches) {
+	UFUNCTION(BlueprintPure)
+		void GetAppList(TArray<UMoonlightApp*>& apps) {
 		if(!ensure(_IsAvailable())) return;
 		TArray<Moonlight::App> cppApps;
 		int res = _native->GetAppList(cppApps);
@@ -160,7 +161,21 @@ public:
 			bpapp->moveNative(std::move(app));
 			apps.Add(bpapp);
 		}
-		Branches = (res < 0) ? EMoonlightErrorState::Fail : EMoonlightErrorState::Ok;
+	}
+
+	UFUNCTION(BlueprintPure)
+		void FindAppByName(const FString& Name, bool& found, UMoonlightApp*& FoundApp) {
+		TArray<Moonlight::App> cppApps;
+		_native->GetAppList(cppApps);
+		found = false;
+		for(auto app : cppApps) {
+			if(app.name.Equals(Name)) {
+				found = true;
+				FoundApp = NewObject<UMoonlightApp>();
+				FoundApp->moveNative(std::move(app));
+				return;
+			}
+		}
 	}
 
 	UFUNCTION(BlueprintCallable)
