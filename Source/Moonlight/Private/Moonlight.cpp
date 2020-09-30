@@ -1,7 +1,9 @@
-#include "MoonlightPCH.h"
 #include "Moonlight.h"
-#include "Core.h"
-#include "ModuleManager.h"
+#include <Misc/Paths.h>
+#include <Internationalization/Text.h>
+#include <Modules/ModuleManager.h>
+#include <HAL/PlatformProcess.h>
+#include <Misc/MessageDialog.h>
 
 #include "moonvdec/moonvdec.h"
 
@@ -34,7 +36,7 @@ void MoonlightModule::StartupModule() {
 	libraryName = L"libmoonvdec.dylib";
 #endif
 	if(libraryName.Len() == 0) {
-		FMessageDialog::Open(EAppMsgType::Ok, FText::FromString(L"Unsuported platform!"));
+		FMessageDialog::Open(EAppMsgType::Ok, FText::FromString(L"Moonlight plugin: Unsuported platform!"));
 		return;
 	}
 

@@ -1,5 +1,4 @@
-#include "MoonlightPCH.h"
-#include "MoonlightPluginBP.h"
+#include "BP/MoonlightPluginBP.h"
 
 UMoonlightStreamConfig::UMoonlightStreamConfig(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
 UMoonlightApp::UMoonlightApp(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}

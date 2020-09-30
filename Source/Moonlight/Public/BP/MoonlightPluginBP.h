@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Kismet/BlueprintFunctionLibrary.h"
-#include "Tickable.h"
 #include <atomic>
 #include <thread>
+
+#include <Tickable.h>
 
 #include "MoonlightPlugin.h"
 #include "MoonlightUtils.h"

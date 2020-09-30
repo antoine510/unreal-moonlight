@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Modules/ModuleInterface.h>
+
 class MoonlightModule : public IModuleInterface {
 public:
 	virtual void StartupModule() override;

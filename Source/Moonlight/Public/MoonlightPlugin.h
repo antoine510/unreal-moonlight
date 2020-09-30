@@ -1,9 +1,10 @@
 #pragma once
 
-#include "moonvdec/moonvdec.h"
+#include <CoreTypes.h>
 
 #include "Moonlight.h"
-#include "Kismet/BlueprintFunctionLibrary.h"
+
+#include "moonvdec/moonvdec.h"
 
 extern MOONLIGHT_API struct FLogCategoryMoonlightLog : public FLogCategory<ELogVerbosity::Log, ELogVerbosity::All> {
 	FLogCategoryMoonlightLog() : FLogCategory(TEXT("Moonlight Log")) {}

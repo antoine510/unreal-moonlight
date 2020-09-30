@@ -12,7 +12,6 @@ public class Moonlight : ModuleRules {
 		PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private"));
 		PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "Public"));
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "RHI", "RenderCore"});
-		PrivatePCHHeaderFile = "Private/MoonlightPCH.h";
 
 		if (Target.Platform != UnrealTargetPlatform.Win64) {
 			throw new System.Exception("This plugin is only available for Win64 right now.");
@@ -20,17 +19,12 @@ public class Moonlight : ModuleRules {
 
 		PrivateIncludePaths.Add(Path.Combine(moonvdecPath, "include/"));
 		
-		PublicLibraryPaths.Add(Path.Combine(moonvdecPath, "lib/Win64/"));
-		PublicAdditionalLibraries.Add("moonvdec.lib");
+		addLibrary("Win64", "moonvdec.lib");
 
-		//PublicDelayLoadDLLs.Add("libeay32.dll");
-		//PublicDelayLoadDLLs.Add("ssleay32.dll");
 		PublicDelayLoadDLLs.Add("moonvdec.dll");
 
 		addDependency("Win64", "moonvdec.dll");
 		addDependency("Win64", "libcrypto-1_1-x64.dll");
-		//addDependency("Win64", "libeay32.dll");
-		//addDependency("Win64", "ssleay32.dll");
 
 		if (File.Exists(Path.Combine(moonvdecPath, "lib/Win64/Qt5Core.dll"))) {
 			addDependency("Win64", "Qt5Core.dll");
@@ -43,6 +37,10 @@ public class Moonlight : ModuleRules {
 		} else {
 			addDependency("Win64", "Qt5Networkd.dll");
 		}
+	}
+	
+	private void addLibrary(string arch, string lib) {
+		PublicAdditionalLibraries.Add(Path.Combine(moonvdecPath, "lib/", arch, lib));
 	}
 	
 	private void addDependency(string arch, string lib) {
